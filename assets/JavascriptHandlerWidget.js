@@ -2,6 +2,7 @@
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
             errorsLimit: 100,
+            debug: false,
             handleUrl: '/javascriptHandler/handle',
         },
         _create: function () {
@@ -33,9 +34,11 @@
                 });
                 return false;
             };
-            setTimeout(function () {
-                asdasdasd23();
-            }, 2000);
+            if (opts.debug) {
+                setTimeout(function () {
+                    asdasdasd23();
+                }, 2000);
+            }
         }
     });
 }());

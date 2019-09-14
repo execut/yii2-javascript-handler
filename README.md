@@ -32,7 +32,11 @@ return [
 
 Render widget inside your application layout:
 ```php
-echo \execut\javascriptHandler\JavascriptHandlerWidget::widget();
+echo \execut\javascriptHandler\JavascriptHandlerWidget::widget([
+    'clientOptions' => [
+        'test' => true,// delete this line for stopping sending a test exception
+    ],
+]);
 ```
 
 As a result, all javascript exceptions will throw php exceptions, that will be handled via yii2 error handler
