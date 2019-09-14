@@ -1,0 +1,23 @@
+{
+  "name": "execut/yii2-javascript-handler",
+  "description": "Javascript error handler for Yii2",
+  "keywords": ["yii2"],
+  "homepage": "https://github.com/execut/yii2-javascript-handler",
+  "type": "yii2-extension",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "eXeCUT"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "execut/yii2-base": "@dev",
+    "yiisoft/yii2": ">=2.0.13"
+  },
+  "autoload": {
+    "psr-4": {
+      "execut\\javascriptHandler\\": ""
+    }
+  }
+}
