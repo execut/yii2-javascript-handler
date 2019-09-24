@@ -12,7 +12,7 @@ use yii\web\Response;
 class HandleController extends Controller
 {
     public function actionIndex() {
-        $postData = var_export(\yii::$app->request->post(), true);
+        $postData = \yii::$app->request->post();
         if (!empty($postData['message'])) {
             if (in_array($postData['message'], $this->module->ignoredMessages)) {
                 \yii::$app->response->format = Response::FORMAT_JSON;
@@ -20,6 +20,6 @@ class HandleController extends Controller
             }
         }
 
-        throw new Exception('Javascript error: ' . $postData);
+        throw new Exception('Javascript error: ' . var_export($postData, true));
     }
 }
