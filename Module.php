@@ -16,10 +16,10 @@ class Module extends \yii\base\Module
             'lineNo' => 1,
             'columnNo' => 10128,
         ],
-        [
-            'message' => 'Uncaught SyntaxError: Unexpected identifier',
-            'lineNo' => 1,
-            'columnNo' => 5,
-        ]
+//        [
+//            'message' => 'Uncaught SyntaxError: Unexpected identifier',
+//            'lineNo' => 1,
+//            'columnNo' => 5,
+//        ]
     ];
 }
