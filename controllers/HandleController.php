@@ -16,9 +16,26 @@ class HandleController extends Controller
         $postData = \yii::$app->request->post();
         if (!empty($postData['data']) && is_array($postData['data']) && !empty($postData['data']['message']) && is_string($postData['data']['message'])) {
             foreach ($this->module->ignoredMessages as $ignoredMessage) {
-                if (strpos($postData['data']['message'], $ignoredMessage) !== false) {
-                    \yii::$app->response->format = Response::FORMAT_JSON;
-                    return true;
+                if (is_string($ignoredMessage)) {
+                    $ignoredMessage = [
+                        'message' => $ignoredMessage,
+                    ];
+                }
+
+                if (strpos($postData['data']['message'], $ignoredMessage['message']) !== false) {
+                    $isIgnore = true;
+                    if (array_key_exists('lineNo', $ignoredMessage) && $ignoredMessage['lineNo'] !== (int) $postData['data']['lineNo']) {
+                        $isIgnore = false;
+                    }
+
+                    if (array_key_exists('columnNo', $ignoredMessage) && $ignoredMessage['columnNo'] !== (int) $postData['data']['columnNo']) {
+                        $isIgnore = false;
+                    }
+
+                    if ($isIgnore) {
+                        \yii::$app->response->format = Response::FORMAT_JSON;
+                        return true;
+                    }
                 }
             }
 

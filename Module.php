@@ -11,5 +11,10 @@ class Module extends \yii\base\Module
     public $ignoredMessages = [
         'Script error.',
         'Access is denied.',
+        [
+            'message' => 'Uncaught SyntaxError: Unexpected end of input',
+            'lineNo' => 1,
+            'columnNo' => 10128,
+        ]
     ];
 }
