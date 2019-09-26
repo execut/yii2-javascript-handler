@@ -29,6 +29,10 @@
                     error: error,
                 };
 
+                if (typeof error.stack !== 'undefined') {
+                    errorData.stack = error.stack;
+                }
+
                 $.post(opts.handleUrl,{
                     data:errorData
                 });
