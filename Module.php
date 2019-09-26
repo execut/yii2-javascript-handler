@@ -15,6 +15,11 @@ class Module extends \yii\base\Module
             'message' => 'Uncaught SyntaxError: Unexpected end of input',
             'lineNo' => 1,
             'columnNo' => 10128,
+        ],
+        [
+            'message' => 'Uncaught SyntaxError: Unexpected identifier',
+            'lineNo' => 1,
+            'columnNo' => 5,
         ]
     ];
 }
