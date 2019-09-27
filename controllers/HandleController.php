@@ -15,7 +15,7 @@ class HandleController extends Controller
     {
         $postData = \yii::$app->request->post();
         if (!empty($postData['data']) && is_array($postData['data']) && !empty($postData['data']['message']) && is_string($postData['data']['message'])) {
-            foreach ($this->module->ignoredMessages as $ignoredMessage) {
+            foreach ($this->module->getIgnoredMessages() as $ignoredMessage) {
                 if (is_string($ignoredMessage)) {
                     $ignoredMessage = [
                         'message' => $ignoredMessage,

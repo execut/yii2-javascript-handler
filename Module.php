@@ -5,10 +5,13 @@
 namespace execut\javascriptHandler;
 
 
+use yii\helpers\ArrayHelper;
+
 class Module extends \yii\base\Module
 {
     public $controllerNamespace = 'execut\javascriptHandler\controllers';
-    public $ignoredMessages = [
+    public $ignoredMessages = [];
+    public $ignoredMessagesByDefault = [
         'Script error.',
         'Access is denied.',
         [
@@ -27,4 +30,8 @@ class Module extends \yii\base\Module
             'columnNo' => 0,
         ]
     ];
+
+    public function getIgnoredMessages() {
+        return ArrayHelper::merge($this->ignoredMessages, $this->ignoredMessagesByDefault);
+    }
 }
