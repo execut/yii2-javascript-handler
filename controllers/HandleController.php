@@ -32,6 +32,10 @@ class HandleController extends Controller
                         $isIgnore = false;
                     }
 
+                    if (array_key_exists('errorUrl', $ignoredMessage) && strpos($postData['data']['errorUrl'], $ignoredMessage['errorUrl']) !== false) {
+                        $isIgnore = false;
+                    }
+
                     if ($isIgnore) {
                         \yii::$app->response->format = Response::FORMAT_JSON;
                         return true;
