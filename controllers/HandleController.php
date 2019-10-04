@@ -24,15 +24,9 @@ class HandleController extends Controller
 
                 if (strpos($postData['data']['message'], $ignoredMessage['message']) !== false) {
                     $isIgnore = true;
-                    if (array_key_exists('lineNo', $ignoredMessage) && $ignoredMessage['lineNo'] !== (int) $postData['data']['lineNo']) {
-                        $isIgnore = false;
-                    }
-
-                    if (array_key_exists('columnNo', $ignoredMessage) && $ignoredMessage['columnNo'] !== (int) $postData['data']['columnNo']) {
-                        $isIgnore = false;
-                    }
-
-                    if (array_key_exists('errorUrl', $ignoredMessage) && strpos($postData['data']['errorUrl'], $ignoredMessage['errorUrl']) !== false) {
+                    if ((array_key_exists('lineNo', $ignoredMessage) && $ignoredMessage['lineNo'] !== (int) $postData['data']['lineNo']) ||
+                        (array_key_exists('columnNo', $ignoredMessage) && $ignoredMessage['columnNo'] !== (int) $postData['data']['columnNo']) ||
+                        (array_key_exists('errorUrl', $ignoredMessage) && strpos($postData['data']['errorUrl'], $ignoredMessage['errorUrl']) === false)) {
                         $isIgnore = false;
                     }
 
