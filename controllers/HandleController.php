@@ -22,7 +22,7 @@ class HandleController extends Controller
                     ];
                 }
 
-                if (strpos($postData['data']['message'], $ignoredMessage['message']) !== false) {
+                if (strpos($ignoredMessage['message'], $postData['data']['message']) !== false) {
                     $isIgnore = true;
                     if (array_key_exists('lineNo', $ignoredMessage) && $ignoredMessage['lineNo'] !== (int) $postData['data']['lineNo']) {
                         $isIgnore = false;
