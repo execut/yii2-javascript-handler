@@ -1,4 +1,10 @@
 (function () {
+    // Patch for Samsung Internet (Browser) V 7.2
+    // see: https://github.com/SamsungInternet/support/issues/56
+    if(navigator.userAgent.match(/SamsungBrowser\/7\.2/i)){
+        Function.prototype.ToString = function () { return this.toString(); }
+    }
+
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
             errorsLimit: 100,
