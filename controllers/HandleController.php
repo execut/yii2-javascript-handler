@@ -15,24 +15,31 @@ class HandleController extends Controller
     {
         $postData = \yii::$app->request->post();
         if (!empty($postData['data']) && is_array($postData['data']) && !empty($postData['data']['message']) && is_string($postData['data']['message'])) {
-            foreach ($this->module->getIgnoredMessages() as $ignoredMessage) {
-                if (is_string($ignoredMessage)) {
-                    $ignoredMessage = [
-                        'message' => $ignoredMessage,
+            foreach ($this->module->getIgnoredMessages() as $ignoredError) {
+                if (is_string($ignoredError)) {
+                    $ignoredError = [
+                        'message' => $ignoredError,
                     ];
                 }
 
-                if (strpos($postData['data']['message'], $ignoredMessage['message']) !== false) {
-                    $isIgnore = true;
-                    if ((array_key_exists('lineNo', $ignoredMessage) && $ignoredMessage['lineNo'] !== (int) $postData['data']['lineNo']) ||
-                        (array_key_exists('columnNo', $ignoredMessage) && $ignoredMessage['columnNo'] !== (int) $postData['data']['columnNo']) ||
-                        (array_key_exists('errorUrl', $ignoredMessage) && strpos($postData['data']['errorUrl'], $ignoredMessage['errorUrl']) === false)) {
-                        $isIgnore = false;
-                    }
+                $ignoredMessages = $ignoredError['message'];
+                if (!is_array($ignoredMessages)) {
+                    $ignoredMessages = [$ignoredMessages];
+                }
 
-                    if ($isIgnore) {
-                        \yii::$app->response->format = Response::FORMAT_JSON;
-                        return true;
+                foreach ($ignoredMessages as $ignoredMessage) {
+                    if (strpos($postData['data']['message'], $ignoredMessage) !== false) {
+                        $isIgnore = true;
+                        if ((array_key_exists('lineNo', $ignoredError) && $ignoredError['lineNo'] !== (int)$postData['data']['lineNo']) ||
+                            (array_key_exists('columnNo', $ignoredError) && $ignoredError['columnNo'] !== (int)$postData['data']['columnNo']) ||
+                            (array_key_exists('errorUrl', $ignoredError) && strpos($postData['data']['errorUrl'], $ignoredError['errorUrl']) === false)) {
+                            $isIgnore = false;
+                        }
+
+                        if ($isIgnore) {
+                            \yii::$app->response->format = Response::FORMAT_JSON;
+                            return true;
+                        }
                     }
                 }
             }
