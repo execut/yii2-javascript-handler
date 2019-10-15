@@ -5,6 +5,9 @@
         Function.prototype.ToString = function () { return this.toString(); }
     }
 
+    // Patch for chrome , see https://stackoverflow.com/questions/26483541/referenceerror-cant-find-variable-gcrweb
+    if (!window.__gCrWeb) window['__gCrWeb'] = {};
+
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
             errorsLimit: 100,
