@@ -6,7 +6,15 @@
     }
 
     // Patch for chrome , see https://stackoverflow.com/questions/26483541/referenceerror-cant-find-variable-gcrweb
-    if (!window.__gCrWeb) window['__gCrWeb'] = {};
+    if (!window.__gCrWeb) {
+        window['__gCrWeb'] = {};
+    }
+
+    // https://lealog.hateblo.jp/entry/2015/02/24/131643
+    window.__gCrWeb.autofill = window.__gCrWeb.autofill || {};
+    window.__gCrWeb.autofill.extractForms = window.__gCrWeb.autofill.extractForms || function() {};
+    window.__gCrWeb.innerSizeAsString = window.__gCrWeb.innerSizeAsString || function() {};
+    window.__gCrWeb.getElementFromPoint = window.__gCrWeb.getElementFromPoint || function() {};
 
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
