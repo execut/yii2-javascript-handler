@@ -1,8 +1,10 @@
 (function () {
     // Patch for Samsung Internet (Browser) V 7.2
     // see: https://github.com/SamsungInternet/support/issues/56
-    if(navigator.userAgent.match(/SamsungBrowser\/7\.2/i)){
-        Function.prototype.ToString = function () { return this.toString(); }
+    if (navigator.userAgent.match(/SamsungBrowser\/7\.2/i)) {
+        Function.prototype.ToString = function () {
+            return this.toString();
+        }
     }
 
     // Patch for chrome , see https://stackoverflow.com/questions/26483541/referenceerror-cant-find-variable-gcrweb
@@ -15,12 +17,11 @@
     window.__gCrWeb.autofill.extractForms = window.__gCrWeb.autofill.extractForms || function() {};
     window.__gCrWeb.innerSizeAsString = window.__gCrWeb.innerSizeAsString || function() {};
     window.__gCrWeb.getElementFromPoint = window.__gCrWeb.getElementFromPoint || function() {};
-
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
             errorsLimit: 100,
             debug: false,
-            handleUrl: '/javascriptHandler/handle',
+            handleUrl: '/javascriptHandler/handle'
         },
         _create: function () {
             var t = this;
@@ -36,30 +37,37 @@
             var t = this,
                 el = t.element,
                 opts = t.options;
-            window.onerror = function(msg, url, lineNo, columnNo, error) {
-                var errorData = {
-                    message: msg,
-                    errorUrl: url,
-                    lineNo: lineNo,
-                    columnNo: columnNo,
-                    url: document.location.href,
-                    error: error,
-                };
 
-                if (typeof error.stack !== 'undefined') {
-                    errorData.stack = error.stack;
-                }
-
-                $.post(opts.handleUrl,{
-                    data:errorData
-                });
-                return false;
+            window.onerror = function (message, errorUrl, lineNo, columnNo, error) {
+                return t._onError(message, errorUrl, lineNo, columnNo, error);
             };
             if (opts.debug) {
                 setTimeout(function () {
                     asdasdasd23();
                 }, 2000);
             }
+        },
+        _onError: function(message, errorUrl, lineNo, columnNo, error) {
+            var t = this,
+                el = t.element,
+                opts = t.options,
+                errorData = {
+                    message: message,
+                    errorUrl: errorUrl,
+                    lineNo: lineNo,
+                    columnNo: columnNo,
+                    url: document.location.href,
+                    error: error
+                };
+
+            if (typeof error.stack !== 'undefined') {
+                errorData.stack = error.stack;
+            }
+
+            $.post(opts.handleUrl,{
+                data:errorData
+            });
+            return false;
         }
     });
 }());
