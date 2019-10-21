@@ -17,6 +17,21 @@
     window.__gCrWeb.autofill.extractForms = window.__gCrWeb.autofill.extractForms || function() {};
     window.__gCrWeb.innerSizeAsString = window.__gCrWeb.innerSizeAsString || function() {};
     window.__gCrWeb.getElementFromPoint = window.__gCrWeb.getElementFromPoint || function() {};
+
+    // Patch for old chrome 49.0.2623.75
+    if (!Object.entries) {
+        Object.entries = function (obj) {
+            var ownProps = Object.keys(obj),
+                i = ownProps.length,
+                resArray = new Array(i); // preallocate the Array
+
+            while (i--)
+                resArray[i] = [ownProps[i], obj[ownProps[i]]];
+            return resArray;
+        };
+    }
+
+
     $.widget("execut.JavascriptHandlerWidget", {
         options: {
             errorsLimit: 100,
