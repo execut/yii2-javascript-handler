@@ -28,7 +28,7 @@ class HandleController extends Controller
                 }
 
                 foreach ($ignoredMessages as $ignoredMessage) {
-                    if (strpos($postData['data']['message'], $ignoredMessage) !== false) {
+                    if (strpos($this->filtrateMessage($postData['data']['message']), $this->filtrateMessage($ignoredMessage)) !== false) {
                         $isIgnore = true;
                         if ((array_key_exists('lineNo', $ignoredError) && $ignoredError['lineNo'] !== (int)$postData['data']['lineNo']) ||
                             (array_key_exists('columnNo', $ignoredError) && $ignoredError['columnNo'] !== (int)$postData['data']['columnNo']) ||
@@ -46,5 +46,9 @@ class HandleController extends Controller
 
             throw new Exception('Javascript error: ' . var_export($postData, true));
         }
+    }
+
+    protected function filtrateMessage($message) {
+        return str_replace(["\n", "\r"], '', $message);
     }
 }
