@@ -62,7 +62,7 @@
                 }, 2000);
             }
         },
-        _onError: function(message, errorUrl, lineNo, columnNo, error) {
+        _onError: function (message, errorUrl, lineNo, columnNo, error) {
             var t = this,
                 el = t.element,
                 opts = t.options,
