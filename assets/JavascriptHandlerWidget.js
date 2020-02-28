@@ -33,8 +33,8 @@
 
 
     $.widget("execut.JavascriptHandlerWidget", {
+        isErrorHandled: false,
         options: {
-            errorsLimit: 100,
             debug: false,
             handleUrl: '/javascriptHandler/handle'
         },
@@ -75,6 +75,11 @@
                     error: error
                 };
 
+            if (t.isErrorHandled) {
+                return false;
+            }
+
+            t.isErrorHandled = true;
             if (typeof error.stack !== 'undefined') {
                 errorData.stack = error.stack;
             }
