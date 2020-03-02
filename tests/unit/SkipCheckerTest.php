@@ -23,15 +23,37 @@ class SkipCheckerTest extends TestCase
         ]));
     }
 
-    public function testCheckWithoutMessage() {
+    public function testCheckByErrorUrlWithoutMessage() {
 
         $checker = new SkipChecker([
             [
                 'errorUrl' => 'http://test',
             ],
+            [
+                'message' => 'test2',
+            ],
         ]);
         $this->assertTrue($checker->check([
+            'message' => 'test3',
             'errorUrl' => 'http://test',
         ]));
+        $this->assertFalse($checker->check([
+            'errorUrl' => 'http://tes1',
+            'message' => 'test1',
+        ]));
+        $this->assertTrue($checker->check([
+            'errorUrl' => 'http://tes2',
+            'message' => 'test2',
+        ]));
+    }
+
+    public function testWrongKey() {
+        $this->expectExceptionMessage('Wrong configuration parameter \'wrongKey\'');
+
+        new SkipChecker([
+            [
+                'wrongKey' => 'test',
+            ],
+        ]);
     }
 }

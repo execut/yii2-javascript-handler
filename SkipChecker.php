@@ -9,7 +9,27 @@ class SkipChecker
     protected $skippedMessages = [];
     public function __construct($skippedMessages)
     {
+        $this->checkParameters($skippedMessages);
         $this->skippedMessages = $skippedMessages;
+    }
+
+    protected function checkParameters($skippedMessages) {
+        $allowedKeys = [
+            'message',
+            'lineNo',
+            'columnNo',
+            'errorUrl'
+        ];
+        foreach ($skippedMessages as $skippedMessage) {
+            if (is_string($skippedMessage)) {
+                continue;
+            }
+            foreach ($skippedMessage as $key => $value) {
+                if (!in_array($key, $allowedKeys)) {
+                    throw new \Exception('Wrong configuration parameter \'' . $key . '\'');
+                }
+            }
+        }
     }
 
     public function check($message) {
@@ -21,7 +41,7 @@ class SkipChecker
             }
 
             if (empty($ignoredError['message'])) {
-                if ($this->checkParameters($message, $ignoredError)) {
+                if ($this->isIgnoredMessage($message, $ignoredError)) {
                     return true;
                 }
 
@@ -35,7 +55,7 @@ class SkipChecker
 
             foreach ($ignoredMessages as $ignoredMessage) {
                 if (strpos($this->filtrateMessage($message['message']), $this->filtrateMessage($ignoredMessage)) !== false) {
-                    $isIgnore = $this->checkParameters($message, $ignoredError);
+                    $isIgnore = $this->isIgnoredMessage($message, $ignoredError);
 
                     if ($isIgnore) {
                         return true;
@@ -56,7 +76,7 @@ class SkipChecker
      * @param $ignoredError
      * @return bool
      */
-    protected function checkParameters($message, $ignoredError): bool
+    protected function isIgnoredMessage($message, $ignoredError): bool
     {
         $isIgnore = true;
         if ((array_key_exists('lineNo', $ignoredError) && $ignoredError['lineNo'] !== (int)$message['lineNo']) ||
