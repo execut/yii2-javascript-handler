@@ -18,7 +18,8 @@ class SkipChecker
             'message',
             'lineNo',
             'columnNo',
-            'errorUrl'
+            'errorUrl',
+            'userAgent',
         ];
         foreach ($skippedMessages as $skippedMessage) {
             if (is_string($skippedMessage)) {
@@ -81,7 +82,8 @@ class SkipChecker
         $isIgnore = true;
         if ((array_key_exists('lineNo', $ignoredError) && $ignoredError['lineNo'] !== (int)$message['lineNo']) ||
             (array_key_exists('columnNo', $ignoredError) && $ignoredError['columnNo'] !== (int)$message['columnNo']) ||
-            (array_key_exists('errorUrl', $ignoredError) && strpos($message['errorUrl'], $ignoredError['errorUrl']) === false)) {
+            (array_key_exists('errorUrl', $ignoredError) && strpos($message['errorUrl'], $ignoredError['errorUrl']) === false) ||
+            (array_key_exists('userAgent', $ignoredError) && strpos($message['userAgent'], $ignoredError['userAgent']) === false)) {
             $isIgnore = false;
         }
         return $isIgnore;

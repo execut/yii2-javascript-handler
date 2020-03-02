@@ -16,8 +16,11 @@ class HandleController extends Controller
     {
         $postData = \yii::$app->request->post();
         if (!empty($postData['data']) && is_array($postData['data']) && !empty($postData['data']['message']) && is_string($postData['data']['message'])) {
+            $data = $postData['data'];
+            $userAgent = \yii::$app->request->getUserAgent();
+            $data['userAgent'] = $userAgent;
             $checker = new SkipChecker($this->module->getIgnoredMessages());
-            if ($checker->check($postData['data'])) {
+            if ($checker->check($data)) {
                 \yii::$app->response->format = Response::FORMAT_JSON;
                 return true;
             }

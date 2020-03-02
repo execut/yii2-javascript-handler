@@ -56,4 +56,22 @@ class SkipCheckerTest extends TestCase
             ],
         ]);
     }
+
+    public function testSkipByUserAgent() {
+        $checker = new SkipChecker([
+            [
+                'userAgent' => 'googleweblight',
+            ],
+        ]);
+        $this->assertTrue($checker->check([
+            'userAgent' => 'Mozilla/5.0 (Linux; Android 4.2.1; en-us;
+ Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko;
+ googleweblight) Chrome/38.0.1025.166 Mobile Safari/535.19',
+        ]));
+        $this->assertFalse($checker->check([
+            'userAgent' => 'Mozilla/5.0 (Linux; Android 4.2.1; en-us;
+ Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko;
+ ) Chrome/38.0.1025.166 Mobile Safari/535.19',
+        ]));
+    }
 }
